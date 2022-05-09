@@ -1,0 +1,4 @@
+{
+  "jwtPrivateKey": "citas_jwt",
+  "db": "citas_db"
+}
