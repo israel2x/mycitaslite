@@ -43,14 +43,15 @@ const citaSchema = new mongoose.Schema({
 const Cita = mongoose.model('Cita', citaSchema);
 
 function validateCita(cita) {
-  const schema = {
+  const schema = Joi.object({
     //name: Joi.string().min(5).max(50).required(),
+    pacienteId: Joi.object().required(),
     motivo: Joi.string().max(255).required(),
     fecha_cita: Joi.date().required(),
+    sintomas: Joi.string().required()
+  });
 
-  };
-
-  return Joi.validate(cita, schema);
+  return schema.validate(cita);
 }
 
 

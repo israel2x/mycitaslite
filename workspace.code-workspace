@@ -1,11 +1,11 @@
 {
-	"folders": [
-		{
-			"path": "..\\..\\..\\Node\\Mosh\\10- Authentication and Authorization\\before\\vidly"
-		},
-		{
-			"path": "."
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "..\\..\\NotasApp\\apicitas"
+    }
+  ],
+  "settings": {}
 }
