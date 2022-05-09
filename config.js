@@ -1,7 +1,7 @@
 const env = process.env;
 
 const config = {
-  db: env.mynotes_db,
+  db: env.citas_db,
   jwtPrivateKey: env.jwtPrivateKey || 7896,
 };
 
