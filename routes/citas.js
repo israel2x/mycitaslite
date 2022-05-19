@@ -54,6 +54,29 @@ router.get("/month/:dia", async (req, res) => {
   }
 });
 
+//traer citas por DATE , fecha completa mes y dia
+router.post("/date/", async (req, res) => {
+  const data = req.body.date;
+  const dayCitas = new Date(data);
+  const matchDate = new Date(
+    dayCitas.getFullYear(),
+    dayCitas.getMonth(),
+    dayCitas.getDate()
+  );
+  try {
+    const citasMonth = await Cita.find({
+      fecha_cita: { $eq: matchDate },
+    })
+      .populate("pacienteId")
+      .select("-pacienteId.password");
+
+    res.send(citasMonth);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ type: "error", message: error.message });
+  }
+});
+
 /* 
 //contar citas por mes
 router.get("/count", async (req, res) => {
@@ -84,7 +107,7 @@ router.post("/", async (req, res) => {
   });
 
   const res_save = await cita.save();
-   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.send(res_save);
 });
 
@@ -127,12 +150,12 @@ router.post("/new", async (req, res) => {
     const save_cita = await Cita.create([cita], { session });
 
     await session.commitTransaction();
-    
+
     res.send(save_cita);
   } catch (error) {
     console.log(error);
     await session.abortTransaction();
-  
+
     return res.status(500).json({ type: "error", message: error.message });
   } finally {
     session.endSession();
