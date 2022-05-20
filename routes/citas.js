@@ -77,16 +77,7 @@ router.post("/date/", async (req, res) => {
   }
 });
 
-/* 
 //contar citas por mes
-router.get("/count", async (req, res) => {
-  try {
-    const countCitasMonth = await Cita.
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ type: "error", message: error.message });
-  }
-}); */
 
 //guardar una cita, Caso 1 paciente ya existe
 router.post("/", async (req, res) => {
@@ -118,6 +109,14 @@ router.post("/new", async (req, res) => {
   console.log(req.body);
   //const paciente = await User.findById(req.body.pacienteId);
   //if (!paciente) return res.status(400).send("No se encontro el paciente!");
+
+  const fecha_completa = new Date(req.body.fecha_cita);
+  const fecha_cita = new Date(
+    fecha_completa.getFullYear(),
+    fecha_completa.getMonth(),
+    fecha_completa.getDate()
+  );
+
   const userPaciente = new User({
     name: req.body.name,
     lastname: req.body.lastname,
@@ -130,7 +129,7 @@ router.post("/new", async (req, res) => {
   const cita = new Cita({
     //pacienteId: paciente._id,
     motivo: req.body.motivo,
-    fecha_cita: req.body.fecha_cita,
+    fecha_cita: fecha_cita,
     sintomas: req.body.sintomas,
     hora_cita: req.body.hora_cita,
     estado_cita: req.body.estado_cita,
@@ -139,7 +138,7 @@ router.post("/new", async (req, res) => {
 
   const session = await mongoose.startSession();
   session.startTransaction();
-  res.setHeader("Access-Control-Allow-Origin", "*");
+
   try {
     const paciente = await User.create([userPaciente], { session });
     console.log(paciente[0]);
