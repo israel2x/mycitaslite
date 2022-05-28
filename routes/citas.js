@@ -57,12 +57,19 @@ router.get("/month/:dia", async (req, res) => {
 //traer citas por DATE , fecha completa mes y dia
 router.post("/date/", async (req, res) => {
   const data = req.body.date;
+  console.log("Fecha que llega: " + data);
+
   const dayCitas = new Date(data);
+  console.log("Fecha que new date: " + dayCitas);
+
   const matchDate = new Date(
     dayCitas.getFullYear(),
     dayCitas.getMonth(),
     dayCitas.getDate()
   );
+
+  console.log("Fecha convertida: " + matchDate);
+
   try {
     const citasMonth = await Cita.find({
       fecha_cita: { $eq: matchDate },
@@ -111,11 +118,14 @@ router.post("/new", async (req, res) => {
   //if (!paciente) return res.status(400).send("No se encontro el paciente!");
 
   const fecha_completa = new Date(req.body.fecha_cita);
+  console.log("fecha cita que llega: " + fecha_completa);
+
   const fecha_cita = new Date(
     fecha_completa.getFullYear(),
     fecha_completa.getMonth(),
     fecha_completa.getDate()
   );
+  console.log("Fecha cita new date: ", fecha_cita);
 
   const userPaciente = new User({
     name: req.body.name,
