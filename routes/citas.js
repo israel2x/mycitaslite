@@ -30,6 +30,7 @@ router.get("/month", async (req, res) => {
     const citasMonth = await Cita.find({
       fecha_cita: { $gte: startDate, $lte: endDate },
     });
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.send(citasMonth);
   } catch (error) {
     console.log(error);
@@ -77,6 +78,7 @@ router.post("/date/", async (req, res) => {
       .populate("pacienteId")
       .select("-pacienteId.password");
 
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.send(citasMonth);
   } catch (error) {
     console.log(error);
@@ -118,14 +120,14 @@ router.post("/new", async (req, res) => {
   //if (!paciente) return res.status(400).send("No se encontro el paciente!");
 
   const fecha_completa = new Date(req.body.fecha_cita);
-  console.log("fecha cita que llega: " + fecha_completa);
+  //console.log("fecha cita que llega: " + fecha_completa);
 
   const fecha_cita = new Date(
     fecha_completa.getFullYear(),
     fecha_completa.getMonth(),
     fecha_completa.getDate()
   );
-  console.log("Fecha cita new date: ", fecha_cita);
+  //console.log("Fecha cita new date: ", fecha_cita);
 
   const userPaciente = new User({
     name: req.body.name,
